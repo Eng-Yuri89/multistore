@@ -42,16 +42,23 @@ class MainCategory extends Model
 
     }
 
-
+     // get all translation category
     public function categories()
     {
         return $this->hasMany(self::class, 'translation_of');
     }
-
+         public function subCategories(){
+        return $this->hasMany(SubCategory::class , 'category_id' , 'id');
+         }
 
     public function vendors(){
 
         return $this -> hasMany('App\Models\Vendor','category_id','id');
+    }
+
+    public function scopeDefaultCategory($query){
+        return $query-> where('translation_of',0);
+
     }
 
 }

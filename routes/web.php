@@ -42,3 +42,7 @@ Route::post('video','Homecontroller@upload')->name('upload.video');
 
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

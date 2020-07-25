@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\VendorCreated;
 use DB;
+use Illuminate\Support\Str;
 
 class VendorsController extends Controller
 {
@@ -94,7 +95,7 @@ class VendorsController extends Controller
             DB::beginTransaction();
             //photo
             if ($request->has('logo') ) {
-                 $filePath = uploadImage('vendors', $request->logo);
+                $filePath = uploadImage('vendors', $request->logo);
                 Vendor::where('id', $id)
                     ->update([
                         'logo' => $filePath,
@@ -130,9 +131,48 @@ class VendorsController extends Controller
 
     }
 
-    public function changeStatus()
+    public function destroy($id)
     {
 
+        try {
+            $vendor = Vendor::find($id);
+            if (!$vendor)
+                return redirect()->route('admin.vendors')->with(['error' => 'هذا المتجر غير موجود ']);
+
+//            $vendors = $maincategory->vendors();
+//            if (isset($vendors) && $vendors->count() > 0) {
+//                return redirect()->route('admin.maincategories')->with(['error' => 'لأ يمكن حذف هذا المتجر  ']);
+//            }
+
+            $image = Str::after($vendor->logo, 'assets/');
+            $image = base_path('assets/' . $image);
+            unlink($image); //delete from folder
+
+            //delete translation of
+            $vendor->delete();
+            return redirect()->route('admin.vendors')->with(['success' => 'تم حذف المتجر بنجاح']);
+
+        } catch (\Exception $ex) {
+            return redirect()->route('admin.vendors')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
+        }
+    }
+
+    public function changeStatus($id)
+    {
+        try {
+            $vendor = Vendor::find($id);
+            if (!$vendor)
+                return redirect()->route('admin.vendors')->with(['error' => 'هذا المتجر غير موجود ']);
+
+            $status =  $vendor -> active  == 0 ? 1 : 0;
+
+            $vendor -> update(['active' =>$status ]);
+
+            return redirect()->route('admin.vendors')->with(['success' => ' تم تغيير الحالة بنجاح ']);
+
+        } catch (\Exception $ex) {
+            return redirect()->route('admin.vendors')->with(['error' => 'حدث خطا ما برجاء المحاوله لاحقا']);
+        }
     }
 
 

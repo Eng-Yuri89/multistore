@@ -51,7 +51,7 @@
                                                 <th> اللوجو</th>
                                                 <th>الهاتف</th>
                                                 <th>القسم الرئيسي</th>
-                                                <th> ألحالة </th>
+                                                <th> ألحالة</th>
                                                 <th>الإجراءات</th>
                                             </tr>
                                             </thead>
@@ -75,12 +75,17 @@
                                                                    class="btn btn-outline-primary btn-min-width box-shadow-3 mr-1 mb-1">تعديل</a>
 
 
-                                                                <a href=""
+                                                                <a href="{{route('admin.vendors.delete' , $vendor->id)}}"
                                                                    class="btn btn-outline-danger btn-min-width box-shadow-3 mr-1 mb-1">حذف</a>
 
 
-                                                                <a href=""
-                                                                   class="btn btn-outline-warning btn-min-width box-shadow-3 mr-1 mb-1">تفعيل</a>
+                                                                <a href="{{route('admin.vendors.status' , $vendor->id)}}"
+                                                                   class="btn btn-outline-warning btn-min-width box-shadow-3 mr-1 mb-1">@if($vendor -> active == 0)
+                                                                        تفعيل
+                                                                    @else
+                                                                        الغاء تفعيل
+                                                                    @endif
+                                                                </a>
 
 
                                                             </div>

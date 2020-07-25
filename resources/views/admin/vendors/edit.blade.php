@@ -48,7 +48,7 @@
                                               enctype="multipart/form-data">
                                             @csrf
 
-                                             <input type="hidden" name="id" value="{{$vendor -> id}}">
+                                            <input type="hidden" name="id" value="{{$vendor -> id}}">
 
                                             <input type="hidden"  value="{{$vendor -> latitude}}" id="latitude" name="latitude">
                                             <input type="hidden" value="{{$vendor -> longitude}}" id="longitude"  name="longitude">
@@ -122,7 +122,7 @@
                                                             <input type="text" id="mobile"
                                                                    class="form-control"
                                                                    placeholder="  " name="mobile"
-                                                              value="{{$vendor -> mobile}}">
+                                                                   value="{{$vendor -> mobile}}">
 
                                                             @error("mobile")
                                                             <span class="text-danger"> {{$message}}</span>
@@ -243,24 +243,25 @@
         // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
 
-        let lat  = $('#latitude').val();
-        let lng = $('#longitude').val();
-        $('#pac-input').val('{{$vendor  -> address}}');
+        {{--let lat  = $('#latitude').val();--}}
+        {{--let lng = $('#longitude').val();--}}
+        {{--$('#pac-input').val('{{$vendor  -> address}}');--}}
 
-        if($('#latitude').val() !== "" && $('#longitude').val() !== ""){
-            prevlat = lat;
-            prevLng = lng;
-        }else{
-            prevlat =24.694970;
-            prevLng =46.724130;
-        }
+        {{--if($('#latitude').val() !== "" && $('#longitude').val() !== ""){--}}
+        {{--    prevlat = lat;--}}
+        {{--    prevLng = lng;--}}
+        {{--}else{--}}
+        {{--    prevlat =24.694970;--}}
+        {{--    prevLng =46.724130;--}}
+        {{--}--}}
 
 
         function initAutocomplete() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: 24.740691, lng: 46.6528521 },
+            var pos = {lat: {{$vendor->latitude}} , lng: {{$vendor->longitude}} };
+             map = new google.maps.Map(document.getElementById('map'), {
+                center: pos,
                 zoom: 13,
-                mapTypeId: 'roadmap'
+
             });
 
             // move pin and current location
